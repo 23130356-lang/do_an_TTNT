@@ -15,7 +15,7 @@ public class Assassin extends Stickman {
     private static final int NUM_SKILL2_FRAMES = 8;
 
     public Assassin() {
-        super("Assassin", 120, 0.05);
+        super("Assassin", 170, 0.05);
 
         this.attackIconPath = "src/res/assassin_attack.png";
         this.defendIconPath = "src/res/assassin_defend.png";

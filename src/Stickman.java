@@ -44,17 +44,18 @@ public abstract class Stickman {
 
         initializeSkills();
     }
-
+// đánh thường công 30 mana
     public void attack(Stickman target) {
         int damage = 10;
         target.takeDamage(damage);
         this.gainEnergy(30);
         this.isDefending = false;
     }
-
+// công 15 mama khi phòng thủ
     public void defend() {
         System.out.println(this.name + " đang phòng thủ!");
         this.isDefending = true;
+        this.gainEnergy(15); // <-- CỘNG 20 NĂNG LƯỢNG
     }
 
     public void useSkill(int skillIndex, Stickman target) {

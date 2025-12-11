@@ -14,7 +14,7 @@ public class Mage extends Stickman {
     private static final int NUM_SKILL2_FRAMES = 7;
 
     public Mage() {
-        super("Mage", 100, 0.0);
+        super("Mage", 200, 0.0);
 
         this.attackIconPath = "src/res/mage_attack.png";
         this.defendIconPath = "src/res/mage_defend.png";
@@ -82,9 +82,14 @@ public class Mage extends Stickman {
     @Override
     protected void initializeSkills() {
         skills.add(new Skill("Tích Tụ", 0, 0, "src/res/tich_tu.png"));
-        skills.add(new Skill("Cầu Lửa", 80, 120, "src/res/cau_lua.png"));
+        skills.add(new Skill("Cầu Lửa", 60, 80, "src/res/cau_lua.png"));
     }
-
+    @Override
+    public void defend() {
+        System.out.println(this.name + " đang phòng thủ (Mage)!");
+        this.isDefending = true;
+        this.gainEnergy(5);;
+    }
     @Override
     public void attack(Stickman target) {
         int damage = 5;

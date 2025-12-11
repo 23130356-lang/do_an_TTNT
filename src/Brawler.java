@@ -14,7 +14,7 @@ public class Brawler extends Stickman {
     private static final int NUM_SKILL2_FRAMES = 8;
 
     public Brawler() {
-        super("Brawler", 160, 0.10);
+        super("Brawler", 250, 0.10);
 
         this.attackIconPath = "src/res/brawler_attack.png";
         this.defendIconPath = "src/res/brawler_defend.png";
@@ -74,7 +74,7 @@ public class Brawler extends Stickman {
 
     @Override
     protected void initializeSkills() {
-        skills.add(new Skill("Nắm Đấm Thép", 30, 40, "src/res/dam_thep.png"));
-        skills.add(new Skill("Gồng", 50, 20, "src/res/gong.png"));
+        skills.add(new Skill("Nắm Đấm Thép", 30, 20, "src/res/dam_thep.png"));
+        skills.add(new Skill("Gồng", 50, 40, "src/res/gong.png"));
     }
 }
