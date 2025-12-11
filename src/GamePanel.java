@@ -242,37 +242,64 @@ public class GamePanel extends JPanel implements ActionListener {
         return (int) score;
     }
 
-    // xử lý minimax
-    private int minimax(int depth, boolean isMaximizing, SimState simAi, SimState simPlayer) {
-        if (depth == 0 || simAi.hp <= 0 || simPlayer.hp <= 0) {
-            return evaluateState(simAi, simPlayer);
-        }
+    // xử lý minimax + alpha/beta
+ private int minimax(int depth, boolean isMaximizing, SimState simAi, SimState simPlayer, int alpha, int beta) {
+    
+     if (depth == 0 || simAi.hp <= 0 || simPlayer.hp <= 0) {
+         return evaluateState(simAi, simPlayer);
+     }
 
-        if (isMaximizing) {
-            int maxEval = -999999;
-            for (int i = 0; i < 8; i++) {
-                if (!isValidMove(i, simAi, false)) continue;
-                SimState nextAi = new SimState(simAi);
-                SimState nextPlayer = new SimState(simPlayer);
-                simulateMove(i, nextAi, nextPlayer, false);
-                int eval = minimax(depth - 1, false, nextAi, nextPlayer);
-                maxEval = Math.max(maxEval, eval);
-            }
-            return maxEval;
-        } else {
-            int minEval = 999999;
-            for (int i = 0; i < 8; i++) {
-                if (!isValidMove(i, simPlayer, true)) continue;
-                SimState nextAi = new SimState(simAi);
-                SimState nextPlayer = new SimState(simPlayer);
-                simulateMove(i, nextPlayer, nextAi, true);
-                int eval = minimax(depth - 1, true, nextAi, nextPlayer);
-                minEval = Math.min(minEval, eval);
-            }
-            return minEval;
-        }
-    }
+     if (isMaximizing) { // Lượt chơi của AI (Maximizer)
+         int maxEval = -9999999;
+         // Ưu tiên Skill 2, Skill 1, Attack, Defend để tìm kiếm hiệu quả hơn
+         int[] moveOrder = {3, 2, 0, 1}; 
+         
+         for (int i : moveOrder) {
+             if (!isValidMove(i, simAi, false)) continue; 
 
+             SimState nextAi = new SimState(simAi);
+             SimState nextPlayer = new SimState(simPlayer);
+             
+             simulateMove(i, nextAi, nextPlayer, false); 
+             
+             int eval = minimax(depth - 1, false, nextAi, nextPlayer, alpha, beta);
+             maxEval = Math.max(maxEval, eval);
+             
+             // CẮT TỈA ALPHA-BETA:
+             alpha = Math.max(alpha, eval);
+             
+             // CẮT TỈA: Nếu alpha >= beta, dừng tìm kiếm các nhánh còn lại
+             if (beta <= alpha) {
+                 break; 
+             }
+         }
+         return maxEval;
+     } else { 
+    	 // Lượt chơi của Player 
+         int minEval = 9999999;
+         int[] moveOrder = {3, 2, 0, 1}; 
+
+         for (int i : moveOrder) {
+             if (!isValidMove(i, simPlayer, true)) continue; 
+
+             SimState nextAi = new SimState(simAi);
+             SimState nextPlayer = new SimState(simPlayer);
+
+             simulateMove(i, nextPlayer, nextAi, true);
+
+            
+             int eval = minimax(depth - 1, true, nextAi, nextPlayer, alpha, beta);
+             minEval = Math.min(minEval, eval);
+            
+             beta = Math.min(beta, eval);
+            
+             if (beta <= alpha) {
+                 break;
+             }
+         }
+         return minEval;
+     }
+ }
     private boolean isValidMove(int moveIndex, SimState s, boolean isPlayer) {
         Stickman character = isPlayer ? player : enemy;
         if (moveIndex == 2) {
@@ -353,7 +380,9 @@ public class GamePanel extends JPanel implements ActionListener {
         SimState currentAi = new SimState(enemy);
         SimState currentPlayer = new SimState(player);
         int[] moveOrder = {3, 2, 0, 1};
-
+        
+        int alpha = -9999999;
+        int beta = 9999999;
         for (int i : moveOrder) {
             if (!isValidMove(i, currentAi, false)) continue;
             SimState nextAi = new SimState(currentAi);
@@ -361,13 +390,14 @@ public class GamePanel extends JPanel implements ActionListener {
 
             simulateMove(i, nextAi, nextPlayer, false);
 
-            int moveValue = minimax(depth - 1, false, nextAi, nextPlayer);
+            int moveValue = minimax(depth - 1, false, nextAi, nextPlayer, alpha, beta);
             System.out.println("AI Move " + i + " Score: " + moveValue);
 
             if (moveValue > bestValue) {
                 bestValue = moveValue;
                 bestMove = i;
             }
+            alpha = Math.max(alpha, moveValue);
         }
         return bestMove;
     }
