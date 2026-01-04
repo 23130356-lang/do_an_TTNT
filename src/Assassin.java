@@ -23,25 +23,20 @@ public class Assassin extends Stickman {
         loadAnimationFrames("src/res/st", ".png", NUM_IDLE_FRAMES, State.IDLE);
         loadAnimationFrames("src/res/strun", ".png", NUM_ATTACK_FRAMES, State.ATTACKING);
         loadAnimationFrames("src/res/stdef", ".png", NUM_DEFEND_FRAMES, State.DEFENDING);
-        loadAnimationFrames("src/res/Assassin_Skill1_", ".png", NUM_SKILL1_FRAMES, State.SKILL1);
-        loadAnimationFrames("src/res/Assassin_Skill2_", ".png", NUM_SKILL2_FRAMES, State.SKILL2);
+        loadAnimationFrames("src/res/strun", ".png", NUM_SKILL1_FRAMES, State.SKILL1);
+        loadAnimationFrames("src/res/strun", ".png", NUM_SKILL2_FRAMES, State.SKILL2);
     }
-
-    // --- HÀM ĐÃ SỬA LỖI ---
     private void loadAnimationFrames(String prefix, String suffix, int numFrames, State state) {
         Image[] frames = new Image[numFrames];
 
         for (int i = 0; i < numFrames; i++) {
             String imagePath = prefix + (i + 1) + suffix;
             try {
-                // 1. Tải ảnh
                 Image tempImage = ImageIO.read(new File(imagePath));
 
-                // 2. KIỂM TRA NULL (QUAN TRỌNG)
                 if (tempImage != null) {
-                    // 3. Nếu ảnh tồn tại, xử lý
                     BufferedImage bufferedSprite = new BufferedImage(
-                            tempImage.getWidth(null), // Dòng 37 cũ của bạn
+                            tempImage.getWidth(null),
                             tempImage.getHeight(null),
                             BufferedImage.TYPE_INT_ARGB
                     );
@@ -50,7 +45,6 @@ public class Assassin extends Stickman {
                     g2d.dispose();
                     frames[i] = bufferedSprite;
                 } else {
-                    // 4. Nếu ảnh là null (không tìm thấy)
                     System.err.println("LỖI: Không tìm thấy file ảnh: " + imagePath);
                     frames[i] = null;
                 }
@@ -84,7 +78,6 @@ public class Assassin extends Stickman {
                 break;
         }
     }
-    // --- KẾT THÚC HÀM SỬA ---
 
     @Override
     protected void initializeSkills() {

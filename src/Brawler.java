@@ -12,8 +12,8 @@ public class Brawler extends Stickman {
     private static final int NUM_IDLE_FRAMES = 6;
     private static final int NUM_ATTACK_FRAMES = 12;
     private static final int NUM_DEFEND_FRAMES = 2;
-    private static final int NUM_SKILL1_FRAMES = 8;
-    private static final int NUM_SKILL2_FRAMES = 8;
+    private static final int NUM_SKILL1_FRAMES = 4;
+    private static final int NUM_SKILL2_FRAMES = 4;
 
     public Brawler() {
         super("Brawler", 250, 0.10);
@@ -24,8 +24,8 @@ public class Brawler extends Stickman {
         loadAnimationFrames("src/res/rf", ".png", NUM_IDLE_FRAMES, State.IDLE);
         loadAnimationFrames("src/res/rfattack", ".png", NUM_ATTACK_FRAMES, State.ATTACKING);
         loadAnimationFrames("src/res/rfdef", ".png", NUM_DEFEND_FRAMES, State.DEFENDING);
-        loadAnimationFrames("src/res/Brawler_Skill1_", ".png", NUM_SKILL1_FRAMES, State.SKILL1);
-        loadAnimationFrames("src/res/Brawler_Skill2_", ".png", NUM_SKILL2_FRAMES, State.SKILL2);
+        loadAnimationFrames("src/res/rfsk", ".png", NUM_SKILL1_FRAMES, State.SKILL1);
+        loadAnimationFrames("src/res/dkat", ".png", NUM_SKILL2_FRAMES, State.SKILL2);
     }
 
     private void loadAnimationFrames(String prefix, String suffix, int numFrames, State state) {

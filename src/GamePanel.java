@@ -244,7 +244,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
     // xử lý minimax + alpha/beta
  private int minimax(int depth, boolean isMaximizing, SimState simAi, SimState simPlayer, int alpha, int beta) {
-    
+
      if (depth == 0 || simAi.hp <= 0 || simPlayer.hp <= 0) {
          return evaluateState(simAi, simPlayer);
      }
@@ -252,47 +252,47 @@ public class GamePanel extends JPanel implements ActionListener {
      if (isMaximizing) { // Lượt chơi của AI (Maximizer)
          int maxEval = -9999999;
          // Ưu tiên Skill 2, Skill 1, Attack, Defend để tìm kiếm hiệu quả hơn
-         int[] moveOrder = {3, 2, 0, 1}; 
-         
+         int[] moveOrder = {3, 2, 0, 1};
+
          for (int i : moveOrder) {
-             if (!isValidMove(i, simAi, false)) continue; 
+             if (!isValidMove(i, simAi, false)) continue;
 
              SimState nextAi = new SimState(simAi);
              SimState nextPlayer = new SimState(simPlayer);
-             
-             simulateMove(i, nextAi, nextPlayer, false); 
-             
+
+             simulateMove(i, nextAi, nextPlayer, false);
+
              int eval = minimax(depth - 1, false, nextAi, nextPlayer, alpha, beta);
              maxEval = Math.max(maxEval, eval);
-             
+
              // CẮT TỈA ALPHA-BETA:
              alpha = Math.max(alpha, eval);
-             
+
              // CẮT TỈA: Nếu alpha >= beta, dừng tìm kiếm các nhánh còn lại
              if (beta <= alpha) {
-                 break; 
+                 break;
              }
          }
          return maxEval;
-     } else { 
-    	 // Lượt chơi của Player 
+     } else {
+    	 // Lượt chơi của Player
          int minEval = 9999999;
-         int[] moveOrder = {3, 2, 0, 1}; 
+         int[] moveOrder = {3, 2, 0, 1};
 
          for (int i : moveOrder) {
-             if (!isValidMove(i, simPlayer, true)) continue; 
+             if (!isValidMove(i, simPlayer, true)) continue;
 
              SimState nextAi = new SimState(simAi);
              SimState nextPlayer = new SimState(simPlayer);
 
              simulateMove(i, nextPlayer, nextAi, true);
 
-            
+
              int eval = minimax(depth - 1, true, nextAi, nextPlayer, alpha, beta);
              minEval = Math.min(minEval, eval);
-            
+
              beta = Math.min(beta, eval);
-            
+
              if (beta <= alpha) {
                  break;
              }
@@ -372,17 +372,19 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     private int getBestMoveForAI() {
-        int bestMove = 0;
-        int bestValue = -999999;
+        long start = System.currentTimeMillis();   // bat dau tinh gio
 
-        int depth = 3;
+        int bestMove = 0;
+        int bestValue = -999999999;
+
+        int depth = 4;
 
         SimState currentAi = new SimState(enemy);
         SimState currentPlayer = new SimState(player);
         int[] moveOrder = {3, 2, 0, 1};
-        
-        int alpha = -9999999;
-        int beta = 9999999;
+
+        int alpha = -999999;
+        int beta = 999999;
         for (int i : moveOrder) {
             if (!isValidMove(i, currentAi, false)) continue;
             SimState nextAi = new SimState(currentAi);
@@ -399,6 +401,11 @@ public class GamePanel extends JPanel implements ActionListener {
             }
             alpha = Math.max(alpha, moveValue);
         }
+        long end = System.currentTimeMillis();     // ket thuc
+        long duration = end - start;
+
+        System.out.println(" AI thinking time: " + duration + " ms"); //in thoi gian
+
         return bestMove;
     }
 
