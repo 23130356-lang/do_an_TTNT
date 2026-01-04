@@ -11,10 +11,10 @@ import java.awt.Image;
     private static final int NUM_ATTACK_FRAMES = 13;
     private static final int NUM_DEFEND_FRAMES = 5;
     private static final int NUM_SKILL1_FRAMES = 8;
-    private static final int NUM_SKILL2_FRAMES = 8;
+    private static final int NUM_SKILL2_FRAMES = 5;
 
     public Tanker() {
-        super("Tanker", 400, 0.20);
+        super("Tanker", 300, 0.20);
 
         this.attackIconPath = "src/res/tanker_attack.png";
         this.defendIconPath = "src/res/tanker_defend.png";
@@ -22,8 +22,8 @@ import java.awt.Image;
         loadAnimationFrames("src/res/dk", ".png", NUM_IDLE_FRAMES, State.IDLE);
         loadAnimationFrames("src/res/dkrun", ".png", NUM_ATTACK_FRAMES, State.ATTACKING);
         loadAnimationFrames("src/res/dkdef", ".png", NUM_DEFEND_FRAMES, State.DEFENDING);
-        loadAnimationFrames("src/res/Tanker_Skill1_", ".png", NUM_SKILL1_FRAMES, State.SKILL1);
-        loadAnimationFrames("src/res/Tanker_Skill2_", ".png", NUM_SKILL2_FRAMES, State.SKILL2);
+        loadAnimationFrames("src/res/dkrun", ".png", NUM_SKILL1_FRAMES, State.SKILL1);
+        loadAnimationFrames("src/res/dkdef", ".png", NUM_SKILL2_FRAMES, State.SKILL2);
     }
 
 
